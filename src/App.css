@@ -52,6 +52,17 @@
   align-items: center;
 }
 
+.signup-box {
+  width: 50%;
+  height: 350px;
+  border: 3px solid black;
+  margin: auto;
+  position: relative;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
 .field{
   width: 25rem;
 }

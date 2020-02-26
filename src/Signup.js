@@ -3,14 +3,15 @@ import "./App.css";
 import { Button, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-class Login extends React.Component {
+class Signup extends React.Component {
   state = {
+    name: "",
     email: "",
     password: ""
   };
 
   onSubmit = () => {
-    this.props.signIn(this.state);
+    this.props.signUp(this.state);
   };
 
   onChange = event => {
@@ -21,9 +22,23 @@ class Login extends React.Component {
     console.log(this.state);
     return (
       <div className="login-comp">
-        <h1> Sign In </h1>
-        <div className="login-box">
+        <h1> Sign up </h1>
+        <div className="signup-box">
           <Form onSubmit={this.onSubmit}>
+            <Form.Field
+              style={{ "margin-top": "20px" }}
+              className="text-fields"
+            >
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                placeholder="Name"
+                onChange={this.onChange}
+              />
+            </Form.Field>
+
             <Form.Field
               style={{ "margin-top": "20px" }}
               className="text-fields"
@@ -37,6 +52,7 @@ class Login extends React.Component {
                 onChange={this.onChange}
               />
             </Form.Field>
+
             <Form.Field>
               <label>Password</label>
               <input
@@ -49,8 +65,8 @@ class Login extends React.Component {
             </Form.Field>
             <Button type="submit">Submit</Button>
           </Form>
-          <Link to="/signup" style={{ "margin-top": "15px" }}>
-            No account? Sign up!
+          <Link to="/login" style={{ "margin-top": "15px" }}>
+            Have an account? Log in!
           </Link>
         </div>
       </div>
@@ -58,4 +74,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default Signup;
