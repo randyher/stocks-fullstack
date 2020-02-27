@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./Login";
 import Signup from "./Signup";
-import Home from "./Home";
+import Portfolio from "./Portfolio";
 import Auth from "./Auth";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 
@@ -75,7 +75,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <NavBar />
+        <NavBar loggedIn={this.state.loggedIn} />
         <Switch>
           <Route
             path="/signup"
@@ -103,7 +103,7 @@ class App extends React.Component {
             render={() =>
               this.state.loggedIn ? (
                 <div>
-                  <Home {...this.state.user} />
+                  <Portfolio {...this.state.user} />
                 </div>
               ) : (
                 <Redirect to="/login" />

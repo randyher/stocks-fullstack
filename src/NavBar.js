@@ -7,17 +7,28 @@ function NavBar(props) {
   console.log(props);
   return (
     <div className="navbar">
-      <ul className="nav-ul">
-        <li style={finalLi} className="nav-li">
-          <a href="#log-out">Log Out</a>
-        </li>
-        <li className="nav-li">
-          <a href="#portfolio">Portfolio</a>
-        </li>
-        <li className="nav-li">
-          <a href="#transaction">Transactions</a>
-        </li>
-      </ul>
+      {props.loggedIn ? (
+        <ul className="nav-ul">
+          <li style={finalLi} className="nav-li">
+            <a href="#log-out">Log Out</a>
+          </li>
+          <li className="nav-li">
+            <a href="#portfolio">Portfolio</a>
+          </li>
+          <li className="nav-li">
+            <a href="#transaction">Transactions</a>
+          </li>
+        </ul>
+      ) : (
+        <ul className="nav-ul">
+          <li style={finalLi} className="nav-li">
+            <a href="#log-out">Sign In</a>
+          </li>
+          <li className="nav-li">
+            <a href="#portfolio">Sign Up</a>
+          </li>
+        </ul>
+      )}
     </div>
   );
 }

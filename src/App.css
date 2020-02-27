@@ -91,3 +91,17 @@
 .nav-li a:hover {
   color: gray;
 }
+
+.portfolio-page{
+  margin: 60px;
+  height: 100rem;
+}
+
+.column {
+  height: 35rem;
+}
+
+.stocks-input {
+  width: 100%;
+  margin: 6px;
+}
