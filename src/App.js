@@ -70,12 +70,17 @@ class App extends React.Component {
       });
   };
 
-  render() {
-    console.log(this.props.history);
+  signOut = () => {
+    Auth.deauthenticateToken();
+    this.setState({ loggedIn: false, user: {} }, () => {
+      this.props.history.push("/login");
+    });
+  };
 
+  render() {
     return (
       <div className="App">
-        <NavBar loggedIn={this.state.loggedIn} />
+        <NavBar signOut={this.signOut} loggedIn={this.state.loggedIn} />
         <Switch>
           <Route
             path="/signup"

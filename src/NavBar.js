@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function NavBar(props) {
   const finalLi = {
@@ -9,23 +10,23 @@ function NavBar(props) {
     <div className="navbar">
       {props.loggedIn ? (
         <ul className="nav-ul">
-          <li style={finalLi} className="nav-li">
-            <a href="#log-out">Log Out</a>
+          <li style={finalLi} className="nav-li" onClick={props.signOut}>
+            <a>Log Out</a>
           </li>
           <li className="nav-li">
-            <a href="#portfolio">Portfolio</a>
+            <a>Portfolio</a>
           </li>
           <li className="nav-li">
-            <a href="#transaction">Transactions</a>
+            <a>Transactions</a>
           </li>
         </ul>
       ) : (
         <ul className="nav-ul">
           <li style={finalLi} className="nav-li">
-            <a href="#log-out">Sign In</a>
+            <Link to="/login">Sign In</Link>
           </li>
           <li className="nav-li">
-            <a href="#portfolio">Sign Up</a>
+            <Link to="/signup">Sign Up</Link>
           </li>
         </ul>
       )}
