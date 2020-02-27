@@ -6,6 +6,7 @@ import Auth from "./Auth";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 
 import "./App.css";
+import NavBar from "./NavBar";
 
 class App extends React.Component {
   state = {
@@ -74,6 +75,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
+        <NavBar />
         <Switch>
           <Route
             path="/signup"

@@ -2,6 +2,7 @@ import React from "react";
 
 class Home extends React.Component {
   render() {
+    console.log(this.props);
     const { name } = this.props.user;
     return (
       <div className="Home">
