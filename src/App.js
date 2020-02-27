@@ -77,8 +77,20 @@ class App extends React.Component {
     });
   };
 
-  buyStock = stock => {
-    console.log(stock);
+  buyStock = transactions => {
+    fetch("http://localhost:3000/transactions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${Auth.getToken()}`
+      },
+      body: JSON.stringify(transactions)
+    })
+      .then(res => res.json())
+      .then(transaction => {
+        console.log(transaction);
+      });
   };
 
   render() {
@@ -103,6 +115,17 @@ class App extends React.Component {
                 <div>{this.props.history.push("/")}</div>
               ) : (
                 <Login signIn={this.signIn} />
+              )
+            }
+          />
+
+          <Route
+            path="/transactions"
+            render={() =>
+              this.state.loggedIn ? (
+                <Transactions signIn={this.signIn} />
+              ) : (
+                <div>{this.props.history.push("/")}</div>
               )
             }
           />

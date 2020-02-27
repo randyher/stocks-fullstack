@@ -26,7 +26,14 @@ class Portfolio extends React.Component {
           this.setState({ error: "This is not a valid ticker" });
         } else {
           this.setState({ error: "" }, () => {
-            this.props.buyStock(data);
+            console.log(data);
+            let transaction = {
+              ticker,
+              quantity: parseInt(this.state.quantity),
+              user_id: this.props.user.id,
+              cost: data.latestPrice * quantity
+            };
+            this.props.buyStock(transaction);
           });
         }
       });
@@ -37,7 +44,7 @@ class Portfolio extends React.Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     const { name, balance } = this.props.user;
     return (
       <div>
@@ -63,7 +70,7 @@ class Portfolio extends React.Component {
 
                 <p>Quantity</p>
                 <input
-                  type="text"
+                  type="number"
                   style={{ width: "60%" }}
                   name="quantity"
                   onChange={this.onChange}
