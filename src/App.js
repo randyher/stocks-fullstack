@@ -77,6 +77,10 @@ class App extends React.Component {
     });
   };
 
+  buyStock = stock => {
+    console.log(stock);
+  };
+
   render() {
     return (
       <div className="App">
@@ -108,7 +112,7 @@ class App extends React.Component {
             render={() =>
               this.state.loggedIn ? (
                 <div>
-                  <Portfolio {...this.state.user} />
+                  <Portfolio {...this.state.user} buyStock={this.buyStock} />
                 </div>
               ) : (
                 <Redirect to="/login" />
