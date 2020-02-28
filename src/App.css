@@ -105,3 +105,27 @@
   width: 100%;
   margin: 6px;
 }
+
+
+.transaction-ul {
+  
+  
+    /* Remove default padding from major browsers */
+    
+    /* Hide the default decorations for li items */
+    list-style: none;
+}
+
+.transaction-li {
+  margin: 15px;
+  margin-left: 25%;
+  margin-right: 28%;
+  font-size: 20px;
+  text-align: justify;
+  /* border: 2px solid black; */
+
+}
+
+.transaction-li:hover {
+  color: blue
+}

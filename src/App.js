@@ -2,6 +2,8 @@ import React from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 import Portfolio from "./Portfolio";
+import Transaction from "./Transaction";
+
 import Auth from "./Auth";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
 
@@ -123,7 +125,7 @@ class App extends React.Component {
             path="/transactions"
             render={() =>
               this.state.loggedIn ? (
-                <Transactions signIn={this.signIn} />
+                <Transaction {...this.state.user} />
               ) : (
                 <div>{this.props.history.push("/")}</div>
               )

@@ -14,10 +14,10 @@ function NavBar(props) {
             <a>Log Out</a>
           </li>
           <li className="nav-li">
-            <a>Portfolio</a>
+            <Link to="/portfolio">Portfolio</Link>
           </li>
           <li className="nav-li">
-            <a>Transactions</a>
+            <Link to="/transactions">Transactions</Link>
           </li>
         </ul>
       ) : (
