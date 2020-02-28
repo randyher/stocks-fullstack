@@ -1,14 +1,31 @@
 import React from "react";
-import { Button, Divider, Form, Grid, Segment, Image } from "semantic-ui-react";
+import {
+  Button,
+  Divider,
+  Form,
+  Grid,
+  Segment,
+  Image,
+  Modal
+} from "semantic-ui-react";
 
 class Portfolio extends React.Component {
   state = {
     ticker: "",
     quantity: "",
-    error: ""
+    error: "",
+    open: false
   };
 
   onSubmit = () => {
+    if (this.state.quantity < 1) {
+      return alert("You must have a quantity greater than 1");
+    } else {
+      this.setState({ open: true });
+    }
+  };
+
+  buyTheStock = () => {
     const { ticker, quantity } = this.state;
     fetch(
       `https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=sk_05ef7def9e0e4e3db27fabe268e9f99a`
@@ -23,9 +40,12 @@ class Portfolio extends React.Component {
       .then(data => {
         console.log(data);
         if (data.error) {
-          this.setState({ error: "This is not a valid ticker" });
+          this.setState({
+            error: `"${ticker}" is not a valid ticker`,
+            open: false
+          });
         } else {
-          this.setState({ error: "" }, () => {
+          this.setState({ error: "", open: false }, () => {
             console.log(data);
             let transaction = {
               ticker,
@@ -43,9 +63,14 @@ class Portfolio extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  closeModal = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     console.log(this.props);
     const { name, balance } = this.props.user;
+    const { ticker, quantity, error } = this.state;
     return (
       <div>
         {this.props.user && (
@@ -81,11 +106,30 @@ class Portfolio extends React.Component {
                 </Button>
               </Form>
               <br />
-              {this.state.error && (
-                <p style={{ color: "red" }}>{this.state.error}</p>
-              )}
+              {error && <p style={{ color: "red" }}>{this.state.error}</p>}
             </Grid.Column>
           </Grid>
+
+          <Modal size="tiny" open={this.state.open} onClose={this.closeModal}>
+            <Modal.Header>Confirm Purchase</Modal.Header>
+            <Modal.Content>
+              <p>
+                Are you sure you want to buy {quantity} shares of {ticker}
+              </p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={this.closeModal} negative>
+                No
+              </Button>
+              <Button
+                positive
+                icon="checkmark"
+                labelPosition="right"
+                content="Yes"
+                onClick={this.buyTheStock}
+              />
+            </Modal.Actions>
+          </Modal>
         </div>
       </div>
     );

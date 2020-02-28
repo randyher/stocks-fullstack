@@ -9,7 +9,7 @@ class Transaction extends React.Component {
       return (
         <li className="transaction-li">
           BUY {transaction.ticker}- {transaction.quantity} Shares @
-          {transaction.cost}
+          {" " + transaction.cost}
         </li>
       );
     });
