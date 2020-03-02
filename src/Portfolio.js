@@ -17,7 +17,8 @@ class Portfolio extends React.Component {
     open: false,
     userTransactions: [],
     totalValue: 0,
-    confirm: ""
+    confirm: "",
+    loaded: false
   };
 
   componentDidMount = () => {
@@ -196,7 +197,7 @@ class Portfolio extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <h1>Buy Stock</h1>
-              <h3>Current Balance: ${balance.toFixed(2)} </h3>
+              <h3>Current Balance: ${balance} </h3>
               <Form onSubmit={this.onSubmit}>
                 <p>Ticker</p>
                 <input
