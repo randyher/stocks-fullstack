@@ -92,10 +92,6 @@
   color: gray;
 }
 
-.portfolio-page{
-  margin: 60px;
-  height: 100rem;
-}
 
 .column {
   height: 35rem;
@@ -120,9 +116,10 @@
   margin: 15px;
   margin-left: 25%;
   margin-right: 28%;
+  margin-bottom: 25px;
   font-size: 20px;
   text-align: justify;
-  /* border: 2px solid black; */
+  border-bottom: 1px solid black;
 
 }
 

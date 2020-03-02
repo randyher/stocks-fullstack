@@ -17,6 +17,25 @@ class Portfolio extends React.Component {
     open: false
   };
 
+  componentDidMount() {
+    const { transactions } = this.props.user;
+    const transactionsMap = this.hashMap(transactions);
+    console.log(transactions);
+    console.log(transactionsMap);
+  }
+
+  hashMap = array => {
+    let obj = {};
+    for (let elem of array) {
+      if (obj[elem.ticker]) {
+        obj[elem.ticker] += elem.quantity;
+      } else {
+        obj[elem.ticker] = elem.quantity;
+      }
+    }
+    return obj;
+  };
+
   onSubmit = () => {
     if (this.state.quantity < 1) {
       return alert("You must have a quantity greater than 1");
