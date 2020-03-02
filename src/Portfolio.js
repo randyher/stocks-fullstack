@@ -22,8 +22,6 @@ class Portfolio extends React.Component {
   componentDidMount() {
     const { transactions } = this.props.user;
     const portfolioMap = this.hashMap(transactions);
-    console.log(transactions);
-    console.log(portfolioMap);
 
     for (let transactionTicker in portfolioMap) {
       fetch(
@@ -31,12 +29,12 @@ class Portfolio extends React.Component {
       )
         .then(res => res.json())
         .then(transactionData => {
-          console.log(transactionData.latestPrice);
           const transaction = {
             ticker: transactionTicker,
             shares: portfolioMap[transactionTicker],
             currentValue:
-              transactionData.latestPrice * portfolioMap[transactionTicker]
+              transactionData.latestPrice * portfolioMap[transactionTicker],
+            change: transactionData.change
           };
           this.setState({
             userTransactions: [...this.state.userTransactions, transaction],
@@ -80,7 +78,6 @@ class Portfolio extends React.Component {
         }
       })
       .then(data => {
-        console.log(data);
         if (data.error) {
           this.setState({
             error: `"${ticker}" is not a valid ticker`,
@@ -88,7 +85,6 @@ class Portfolio extends React.Component {
           });
         } else {
           this.setState({ error: "", open: false }, () => {
-            console.log(data);
             let transaction = {
               ticker,
               quantity: parseInt(this.state.quantity),
@@ -109,14 +105,24 @@ class Portfolio extends React.Component {
     this.setState({ open: false });
   };
 
+  fontColor = change => {
+    if (change > 0) {
+      return { color: "green" };
+    } else if (change === 0) {
+      return { color: "grey" };
+    } else if (change < 0) {
+      return { color: "red" };
+    }
+  };
+
   render() {
-    console.log(this.state);
     const { name, balance } = this.props.user;
     const { ticker, quantity, error, userTransactions } = this.state;
-    console.log(userTransactions);
+    console.log("Load");
+
     const transactionList = userTransactions.map(transaction => {
       return (
-        <li className="portfolio-li">
+        <li className="portfolio-li" style={this.fontColor(transaction.change)}>
           {transaction.ticker}- {transaction.shares} Shares
           {"      $" + transaction.currentValue.toFixed(2)}
         </li>

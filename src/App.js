@@ -94,11 +94,22 @@ class App extends React.Component {
     })
       .then(res => res.json())
       .then(transaction => {
-        console.log(transaction);
+        this.setState({
+          user: {
+            user: {
+              transactions: [
+                ...this.state.user.user.transactions,
+                transaction.transaction
+              ]
+            }
+          }
+        });
+        this.props.history.push("/login");
       });
   };
 
   render() {
+    console.log(this.state.user);
     return (
       <div className="App">
         <NavBar signOut={this.signOut} loggedIn={this.state.loggedIn} />
