@@ -20,7 +20,7 @@ class App extends React.Component {
 
   componentDidMount() {
     if (Auth.isUserAuthenticated()) {
-      fetch("http://localhost:3000/profile", {
+      fetch("https://stock-backend-api.herokuapp.com/profile", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`
@@ -36,7 +36,7 @@ class App extends React.Component {
   }
 
   signIn = user => {
-    fetch("http://localhost:3000/login", {
+    fetch("https://stock-backend-api.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ class App extends React.Component {
   };
 
   signUp = user => {
-    fetch("http://localhost:3000/users", {
+    fetch("https://stock-backend-api.herokuapp.com/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +89,7 @@ class App extends React.Component {
   };
 
   buyStock = transactions => {
-    fetch("http://localhost:3000/transactions", {
+    fetch("https://stock-backend-api.herokuapp.com/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
