@@ -1,5 +1,8 @@
 class TransactionsController < ApplicationController
-
+    def index 
+        @transactions = Transaction.all 
+        render json: @transactions
+    end 
     def create 
         @transaction = Transaction.create(transaction_params)
         current_balance = current_user.balance - @transaction.cost

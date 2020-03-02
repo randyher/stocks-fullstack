@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   post '/login', to: 'auth#create'
   get '/profile', to: 'users#profile'
   post '/transactions', to: 'transactions#create'
+  get 'transactions', to: 'transactions#index'
 end
