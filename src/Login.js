@@ -18,6 +18,7 @@ class Login extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div className="login-comp">
         <h1> Sign In </h1>
@@ -52,6 +53,7 @@ class Login extends React.Component {
             No account? Sign up!
           </Link>
         </div>
+        {this.props.error && <p style={{ color: "red" }}>{this.props.error}</p>}
       </div>
     );
   }

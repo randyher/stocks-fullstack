@@ -48,9 +48,12 @@ class App extends React.Component {
       .then(user => {
         if (user.jwt) {
           Auth.authenticateToken(user.jwt);
-          this.setState({ loggedIn: true, user }, () => {
+          this.setState({ loggedIn: true, user, error: "" }, () => {
             this.props.history.push("/");
           });
+        } else {
+          console.log(user);
+          this.setState({ error: user.error });
         }
       });
   };
@@ -144,7 +147,7 @@ class App extends React.Component {
                 this.state.loggedIn ? (
                   <div>{this.props.history.push("/")}</div>
                 ) : (
-                  <Login signIn={this.signIn} />
+                  <Login signIn={this.signIn} error={this.state.error} />
                 )
               ) : (
                 <Dimmer active inverted>
