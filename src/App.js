@@ -15,7 +15,8 @@ class App extends React.Component {
   state = {
     user: {},
     loggedIn: false,
-    error: ""
+    inError: "",
+    upError: ""
   };
 
   componentDidMount() {
@@ -53,7 +54,7 @@ class App extends React.Component {
           });
         } else {
           console.log(user);
-          this.setState({ error: user.error });
+          this.setState({ inError: user.error });
         }
       });
   };
@@ -76,7 +77,7 @@ class App extends React.Component {
           });
         } else {
           console.log(user);
-          this.setState({ error: user.error });
+          this.setState({ upError: user.error });
         }
       });
   };
@@ -134,7 +135,7 @@ class App extends React.Component {
                 this.state.loggedIn ? (
                   <div>{this.props.history.push("/")}</div>
                 ) : (
-                  <Signup signUp={this.signUp} error={this.state.error} />
+                  <Signup signUp={this.signUp} error={this.state.upError} />
                 )
               ) : (
                 <Dimmer active inverted>
@@ -150,7 +151,7 @@ class App extends React.Component {
                 this.state.loggedIn ? (
                   <div>{this.props.history.push("/")}</div>
                 ) : (
-                  <Login signIn={this.signIn} error={this.state.error} />
+                  <Login signIn={this.signIn} error={this.state.inError} />
                 )
               ) : (
                 <Dimmer active inverted>
