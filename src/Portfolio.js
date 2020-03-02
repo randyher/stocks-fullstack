@@ -60,7 +60,8 @@ class Portfolio extends React.Component {
 
   onSubmit = () => {
     if (this.state.quantity < 1) {
-      return alert("You must have a quantity greater than 1");
+      this.setState({ error: "Quantity must be greater than 1" });
+      return;
     } else {
       this.setState({ open: true });
     }
@@ -130,12 +131,12 @@ class Portfolio extends React.Component {
           <Grid columns={2} padded>
             <Grid.Column>
               <h1>Portfolio</h1>
-              <h3> ${this.state.totalValue.toFixed(2)}</h3>
+              <h3> Your Value: ${this.state.totalValue.toFixed(2)}</h3>
               <ul className="transaction-ul">{transactionList}</ul>
             </Grid.Column>
             <Grid.Column>
               <h1>Buy Stock</h1>
-              <h3>Current Balance: ${balance} </h3>
+              <h3>Current Balance: ${balance.toFixed(2)} </h3>
               <Form onSubmit={this.onSubmit}>
                 <p>Ticker</p>
                 <input

@@ -3,6 +3,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Portfolio from "./Portfolio";
 import Transaction from "./Transaction";
+import { Loader, Dimmer } from "semantic-ui-react";
 
 import Auth from "./Auth";
 import { Switch, Redirect, Route, withRouter } from "react-router-dom";
@@ -27,8 +28,10 @@ class App extends React.Component {
       })
         .then(res => res.json())
         .then(user => {
-          this.setState({ loggedIn: true, user });
+          this.setState({ loggedIn: true, user, loaded: true });
         });
+    } else {
+      this.setState({ loaded: true });
     }
   }
 
@@ -103,20 +106,32 @@ class App extends React.Component {
           <Route
             path="/signup"
             render={() =>
-              this.state.loggedIn ? (
-                <div>{this.props.history.push("/")}</div>
+              this.state.loaded ? (
+                this.state.loggedIn ? (
+                  <div>{this.props.history.push("/")}</div>
+                ) : (
+                  <Signup signUp={this.signUp} />
+                )
               ) : (
-                <Signup signUp={this.signUp} />
+                <Dimmer active inverted>
+                  <Loader inverted content="Loading" />
+                </Dimmer>
               )
             }
           />
           <Route
             path="/login"
             render={() =>
-              this.state.loggedIn ? (
-                <div>{this.props.history.push("/")}</div>
+              this.state.loaded ? (
+                this.state.loggedIn ? (
+                  <div>{this.props.history.push("/")}</div>
+                ) : (
+                  <Login signIn={this.signIn} />
+                )
               ) : (
-                <Login signIn={this.signIn} />
+                <Dimmer active inverted>
+                  <Loader inverted content="Loading" />
+                </Dimmer>
               )
             }
           />
