@@ -69,6 +69,7 @@ class Signup extends React.Component {
             Have an account? Log in!
           </Link>
         </div>
+        {this.props.error && <p style={{ color: "red" }}>{this.props.error}</p>}
       </div>
     );
   }
