@@ -94,19 +94,24 @@ class App extends React.Component {
     })
       .then(res => res.json())
       .then(transaction => {
-        this.setState({
-          user: {
+        this.setState(
+          {
             user: {
-              ...this.state.user.user,
-              balance: transaction.current_balance,
-              transactions: [
-                ...this.state.user.user.transactions,
-                transaction.transaction
-              ]
+              user: {
+                ...this.state.user.user,
+                balance: transaction.current_balance,
+                transactions: [
+                  ...this.state.user.user.transactions,
+                  transaction.transaction
+                ]
+              }
             }
+          },
+          () => {
+            console.log("from app", this.state);
           }
-        });
-        this.props.history.push("/login");
+        );
+        // this.props.history.push("/");
       });
   };
 

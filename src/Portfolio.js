@@ -16,10 +16,11 @@ class Portfolio extends React.Component {
     error: "",
     open: false,
     userTransactions: [],
-    totalValue: 0
+    totalValue: 0,
+    confirm: ""
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     const { transactions } = this.props.user;
     const portfolioMap = this.hashMap(transactions);
 
@@ -42,7 +43,7 @@ class Portfolio extends React.Component {
           });
         });
     }
-  }
+  };
 
   hashMap = array => {
     let obj = {};
@@ -81,18 +82,68 @@ class Portfolio extends React.Component {
         if (data.error) {
           this.setState({
             error: `"${ticker}" is not a valid ticker`,
-            open: false
+            open: false,
+            confirm: ""
+          });
+        } else if (data.latestPrice * quantity > this.props.user.balance) {
+          this.setState({
+            error: "You have insufficient balance",
+            open: false,
+            confirm: ""
           });
         } else {
-          this.setState({ error: "", open: false }, () => {
-            let transaction = {
+          const { transactions } = this.props.user;
+          const portfolioMap = this.hashMap(transactions);
+          let userTransactionsArray = [];
+
+          if (Object.keys(portfolioMap).includes(ticker)) {
+            const shares = parseInt(portfolioMap[ticker]) + parseInt(quantity);
+            const newTransaction = {
               ticker,
-              quantity: parseInt(this.state.quantity),
-              user_id: this.props.user.id,
-              cost: data.latestPrice * quantity
+              shares,
+              currentValue: data.latestPrice * shares,
+              change: data.change
             };
-            this.props.buyStock(transaction);
-          });
+            userTransactionsArray = this.state.userTransactions.map(
+              transaction => {
+                if (transaction.ticker === ticker) {
+                  return newTransaction;
+                } else {
+                  return transaction;
+                }
+              }
+            );
+          } else {
+            const shares = parseInt(quantity);
+            const newTransaction = {
+              ticker,
+              shares,
+              currentValue: data.latestPrice * shares,
+              change: data.change
+            };
+            userTransactionsArray = [
+              ...this.state.userTransactions,
+              newTransaction
+            ];
+          }
+
+          this.setState(
+            {
+              error: "",
+              open: false,
+              userTransactions: userTransactionsArray,
+              confirm: `${ticker} was successfully purchased`
+            },
+            () => {
+              let transaction = {
+                ticker,
+                quantity: parseInt(this.state.quantity),
+                user_id: this.props.user.id,
+                cost: data.latestPrice * quantity
+              };
+              this.props.buyStock(transaction);
+            }
+          );
         }
       });
   };
@@ -117,9 +168,11 @@ class Portfolio extends React.Component {
 
   render() {
     const { name, balance } = this.props.user;
-    const { ticker, quantity, error, userTransactions } = this.state;
-    console.log("Load");
+    const { ticker, quantity, error, confirm, userTransactions } = this.state;
 
+    userTransactions.sort((transactionA, transactionB) => {
+      return transactionA.ticker.localeCompare(transactionB.ticker);
+    });
     const transactionList = userTransactions.map(transaction => {
       return (
         <li className="portfolio-li" style={this.fontColor(transaction.change)}>
@@ -128,6 +181,7 @@ class Portfolio extends React.Component {
         </li>
       );
     });
+
     return (
       <div>
         {this.props.user && (
@@ -166,6 +220,9 @@ class Portfolio extends React.Component {
               </Form>
               <br />
               {error && <p style={{ color: "red" }}>{this.state.error}</p>}
+              {confirm && (
+                <p style={{ color: "green" }}>{this.state.confirm}</p>
+              )}
             </Grid.Column>
           </Grid>
 
