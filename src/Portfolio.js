@@ -69,12 +69,11 @@ class Portfolio extends React.Component {
 
   buyTheStock = () => {
     let { ticker, quantity } = this.state;
-    ticker = ticker
-      .toUpperCase()
-      .toUpperCase()
-      .fetch(
-        `https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=sk_05ef7def9e0e4e3db27fabe268e9f99a`
-      )
+    ticker = ticker.toUpperCase();
+    console.log(ticker);
+    fetch(
+      `https://cloud.iexapis.com/stable/stock/${ticker}/quote?token=sk_05ef7def9e0e4e3db27fabe268e9f99a`
+    )
       .then(res => {
         if (res.status === 404) {
           return { error: "Ticker is not valid" };
