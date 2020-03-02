@@ -14,14 +14,36 @@ class Portfolio extends React.Component {
     ticker: "",
     quantity: "",
     error: "",
-    open: false
+    open: false,
+    userTransactions: [],
+    totalValue: 0
   };
 
   componentDidMount() {
     const { transactions } = this.props.user;
-    const transactionsMap = this.hashMap(transactions);
+    const portfolioMap = this.hashMap(transactions);
     console.log(transactions);
-    console.log(transactionsMap);
+    console.log(portfolioMap);
+
+    for (let transactionTicker in portfolioMap) {
+      fetch(
+        `https://cloud.iexapis.com/stable/stock/${transactionTicker}/quote?token=sk_05ef7def9e0e4e3db27fabe268e9f99a`
+      )
+        .then(res => res.json())
+        .then(transactionData => {
+          console.log(transactionData.latestPrice);
+          const transaction = {
+            ticker: transactionTicker,
+            shares: portfolioMap[transactionTicker],
+            currentValue:
+              transactionData.latestPrice * portfolioMap[transactionTicker]
+          };
+          this.setState({
+            userTransactions: [...this.state.userTransactions, transaction],
+            totalValue: (this.state.totalValue += transaction.currentValue)
+          });
+        });
+    }
   }
 
   hashMap = array => {
@@ -87,9 +109,18 @@ class Portfolio extends React.Component {
   };
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
     const { name, balance } = this.props.user;
-    const { ticker, quantity, error } = this.state;
+    const { ticker, quantity, error, userTransactions } = this.state;
+    console.log(userTransactions);
+    const transactionList = userTransactions.map(transaction => {
+      return (
+        <li className="portfolio-li">
+          {transaction.ticker}- {transaction.shares} Shares
+          {"      $" + transaction.currentValue.toFixed(2)}
+        </li>
+      );
+    });
     return (
       <div>
         {this.props.user && (
@@ -99,6 +130,8 @@ class Portfolio extends React.Component {
           <Grid columns={2} padded>
             <Grid.Column>
               <h1>Portfolio</h1>
+              <h3> ${this.state.totalValue.toFixed(2)}</h3>
+              <ul className="transaction-ul">{transactionList}</ul>
             </Grid.Column>
             <Grid.Column>
               <h1>Buy Stock</h1>
