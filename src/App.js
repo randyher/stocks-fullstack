@@ -97,6 +97,8 @@ class App extends React.Component {
         this.setState({
           user: {
             user: {
+              ...this.state.user.user,
+              balance: transaction.current_balance,
               transactions: [
                 ...this.state.user.user.transactions,
                 transaction.transaction
