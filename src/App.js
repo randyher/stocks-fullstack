@@ -49,9 +49,12 @@ class App extends React.Component {
       .then(user => {
         if (user.jwt) {
           Auth.authenticateToken(user.jwt);
-          this.setState({ loggedIn: true, user, error: "" }, () => {
-            this.props.history.push("/");
-          });
+          this.setState(
+            { loggedIn: true, user, inError: "", upError: "" },
+            () => {
+              this.props.history.push("/");
+            }
+          );
         } else {
           console.log(user);
           this.setState({ inError: user.error });
@@ -72,11 +75,13 @@ class App extends React.Component {
       .then(user => {
         if (user.jwt) {
           Auth.authenticateToken(user.jwt);
-          this.setState({ loggedIn: true, user, error: "" }, () => {
-            this.props.history.push("/");
-          });
+          this.setState(
+            { loggedIn: true, user, inError: "", upError: "" },
+            () => {
+              this.props.history.push("/");
+            }
+          );
         } else {
-          console.log(user);
           this.setState({ upError: user.error });
         }
       });
@@ -114,16 +119,13 @@ class App extends React.Component {
               }
             }
           },
-          () => {
-            console.log("from app", this.state);
-          }
+          () => {}
         );
         // this.props.history.push("/");
       });
   };
 
   render() {
-    console.log(this.state.user);
     return (
       <div className="App">
         <NavBar signOut={this.signOut} loggedIn={this.state.loggedIn} />
