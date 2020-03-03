@@ -7,7 +7,7 @@ class ApplicationController < ActionController::API
     end
 
     def the_secret
-      "my_srcettttzzz"
+      RAILS_MASTER_KEY
     end 
   
     def auth_header
